@@ -3,24 +3,14 @@
       <div 
         v-for="(data, key) in colorObj" 
         :key="data+key" 
-        @click="getColor()" 
+
         class="circle-color"
+        :id="key"
         :style="{backgroundColor: data}"
+
+       @click="getColor($event)" 
         ></div>
 
-      <!-- <div @click="getColor()" class="circle-color">
-
-      </div>
-
-      <div @click="getColor()" class="circle-color">
-
-      </div>
-      <div @click="getColor()" class="circle-color">
-
-      </div>
-      <div @click="getColor()" class="circle-color">
-
-      </div> -->
   </div>
 </template>
 
@@ -43,9 +33,9 @@ export default {
         //     })
 
         // },
-        getColor() {
-
-            console.log(this.$refs);
+        getColor(event) {
+            console.log(event.target.id);
+            console.log(this.$refs["data"]);
             // console.log(this.colorObj);
         }
     },
