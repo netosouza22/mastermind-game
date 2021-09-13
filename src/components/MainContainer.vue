@@ -1,20 +1,26 @@
 <template>
-  <div id="container"> 
+  <div id="container">
     <SectionColors />
+    <SectionGame />
+    <SectionButtons />
   </div>
 </template>
 
 <script>
-import SectionColors from "../components/SectionColors.vue";
+import SectionColors from "./SectionColors.vue";
+import SectionButtons from "./SectionButtons.vue";
+import SectionGame from "./SectionGame.vue";
 
 export default {
   name: "MainContainer",
   props: {
-    msg: String
+    msg: String,
   },
   components: {
-    SectionColors
-  }
+    SectionColors,
+    SectionButtons,
+    SectionGame,
+  },
 };
 </script>
 
@@ -33,5 +39,14 @@ li {
 }
 a {
   color: #42b983;
+}
+
+#container {
+  margin: auto;
+  width: 80%;
+  border: 1px solid #000;
+
+  display: flex;
+  flex-direction: row;
 }
 </style>
