@@ -1,20 +1,12 @@
 <template>
   <div id="container-section-game">
-    <div>
-      <div class="section-circle-game">
-        <div id="orange" class="circle-game"></div>
-        <div id="blue" class="circle-game"></div>
-        <div id="green" class="circle-game"></div>
-        <div id="pink" class="circle-game"></div>
-      </div>
-
-      <div>
-        <!-- <div></div>
-        <div></div>
-        <div></div>
-        <div></div> -->
-      </div>
-    </div>
+    <SectionGameChoosePass />
+    <SectionGameChoosePass />
+    <SectionGameChoosePass />
+    <SectionGameChoosePass />
+    <SectionGameChoosePass />
+    <SectionGameChoosePass />
+    <SectionGameChoosePass />
 
     <SectionGameCode />
   </div>
@@ -22,17 +14,24 @@
 
 <script>
 import SectionGameCode from "./SectionGameCode.vue";
+import SectionGameChoosePass from "./SectionGameChoosePass.vue";
+
 export default {
   name: "SectionGame",
+  props: {
+    selectedArrCode: Array,
+  },
   data() {
     return {
       //InforHits determina a quantidade de acertos existentes na fase do jogo.
       //1 - Acertou posição e cor, 0 - acertou apenas cor e -1 - Não acertoou
       infoHits: [1, 1, 0, -1],
+      arrCode: this.selectedArrCode,
     };
   },
   components: {
     SectionGameCode,
+    SectionGameChoosePass,
   },
 };
 </script>

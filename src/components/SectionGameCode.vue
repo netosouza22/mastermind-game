@@ -25,26 +25,22 @@ export default {
     selectColors() {
       let prevColorObj = this.prevColorObj;
 
-      //   console.log(newColorObj);
-
-      // let arr = [0, 1, 2, 3, 4];
       let arrNumberSelecteds = [];
       let newColorObj = [];
       let i = 0;
-      console.log("anterior", prevColorObj);
-      while (i < 4) {
-        let randNumber = Math.floor(Math.random() * 5); //I choose a randnumber between 0 and 4
-        console.log("randNumber", randNumber);
 
-        //Check if the number exists in array arrNumberSelecteds
+      //How to shuffle values of an array
+      while (i < 4) {
+        let randNumber = Math.floor(Math.random() * 5); //I choose a random number between 0 and 4
+
+        //Check if the number exists in array arrNumberSelecteds, if not then
         if (arrNumberSelecteds.includes(randNumber) === false) {
-          newColorObj[i] = prevColorObj[randNumber];
+          newColorObj[i] = prevColorObj[randNumber]; //The position of newColorObj is populated by a prevColor index of rand number
           i++;
-          arrNumberSelecteds.push(randNumber);
+          arrNumberSelecteds.push(randNumber); //put the find nuumber in the array
         }
       }
       this.newColorObj = newColorObj;
-      console.log("novo", newColorObj);
     },
   },
 };
