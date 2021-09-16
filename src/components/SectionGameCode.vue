@@ -4,7 +4,7 @@
       v-for="(data, key) in newColorObj"
       :key="data + key"
       class="div-color"
-      :style="{ backgroundColor: 'black' }"
+      :style="{ backgroundColor: data }"
     ></div>
     <button @click="selectColors()">Click Me</button>
   </div>

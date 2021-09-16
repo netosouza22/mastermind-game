@@ -145,7 +145,6 @@ export default {
     getOwnColor(event) {
       console.log(event.target);
       let objColors = this.colors;
-      console.log(this.selected);
 
       if (Object.prototype.hasOwnProperty.call(objColors, event.target.name)) {
         console.log(event.target.name);
