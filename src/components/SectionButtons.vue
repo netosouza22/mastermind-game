@@ -3,6 +3,7 @@
     <button class="button button-play">
       <img id="play" src="../assets/icons/play.png" />
     </button>
+
     <button class="button button-refresh">
       <img id="refresh" src="../assets/icons/refresh.png" />
     </button>
@@ -17,20 +18,33 @@ export default {
 
 <style>
 #container-section-buttons {
-  margin: auto;
+  /* margin: 0px auto; */
   display: flex;
   flex-direction: column;
-  width: 100px;
+  /* align-content: space-between; */
+  /* justify-content: center; */
 
   border: 1px solid #000;
 }
 .button {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-img {
   width: 40px;
   height: 40px;
+  margin: 5px;
+
+  border-radius: 50%;
+  padding: 0px;
+  border: none;
+
+  cursor: pointer;
+}
+
+.button:hover > img {
+  width: 26px;
+}
+img {
+  margin-top: 3px;
+
+  width: 25px;
+  height: 25px;
 }
 </style>

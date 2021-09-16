@@ -6,7 +6,7 @@
       class="circle-color"
       :id="data"
       :style="{ backgroundColor: data }"
-      @click="getColor($event)"
+      @click="getColor()"
     ></div>
   </div>
 </template>
@@ -21,9 +21,8 @@ export default {
     };
   },
   methods: {
-    getColor(event) {
-      console.log(event.target.id);
-      console.log(this.$refs["data"]);
+    getColor() {
+      console.log(this.colorObj);
     },
   },
 };

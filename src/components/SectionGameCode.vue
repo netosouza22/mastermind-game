@@ -4,7 +4,7 @@
       v-for="(data, key) in newColorObj"
       :key="data + key"
       class="div-color"
-      :style="{ backgroundColor: data }"
+      :style="{ backgroundColor: 'black' }"
     ></div>
     <button @click="selectColors()">Click Me</button>
   </div>
@@ -31,7 +31,7 @@ export default {
 
       //How to shuffle values of an array
       while (i < 4) {
-        let randNumber = Math.floor(Math.random() * 5); //I choose a random number between 0 and 4
+        let randNumber = Math.floor(Math.random() * prevColorObj.length); //I choose a random number between 0 and 4
 
         //Check if the number exists in array arrNumberSelecteds, if not then
         if (arrNumberSelecteds.includes(randNumber) === false) {
@@ -41,6 +41,8 @@ export default {
         }
       }
       this.newColorObj = newColorObj;
+
+      this.$emit("clicked-get-code", newColorObj);
     },
   },
 };

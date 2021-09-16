@@ -1,14 +1,14 @@
 <template>
   <div id="container-section-game">
-    <SectionGameChoosePass />
-    <SectionGameChoosePass />
-    <SectionGameChoosePass />
-    <SectionGameChoosePass />
-    <SectionGameChoosePass />
-    <SectionGameChoosePass />
-    <SectionGameChoosePass />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
 
-    <SectionGameCode />
+    <SectionGameCode @clicked-get-code="onClickGetCode($event)" />
   </div>
 </template>
 
@@ -25,9 +25,17 @@ export default {
     return {
       //InforHits determina a quantidade de acertos existentes na fase do jogo.
       //1 - Acertou posição e cor, 0 - acertou apenas cor e -1 - Não acertoou
-      infoHits: [1, 1, 0, -1],
+
       arrCode: this.selectedArrCode,
+      arrCodeChoosed: [],
+
+      step: 0,
     };
+  },
+  methods: {
+    onClickGetCode(event) {
+      this.arrCodeChoosed = event;
+    },
   },
   components: {
     SectionGameCode,

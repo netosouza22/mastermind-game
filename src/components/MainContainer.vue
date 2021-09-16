@@ -48,5 +48,8 @@ a {
 
   display: flex;
   flex-direction: row;
+  justify-content: center;
+
+  background-color: #c4c4c4;
 }
 </style>
