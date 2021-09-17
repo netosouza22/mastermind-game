@@ -1,12 +1,13 @@
 <template>
   <div id="container-section-game">
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
-    <SectionGameChoosePass :code-color="arrCodeChoosed" :step="step" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="1" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="2" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="3" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="4" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="5" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="6" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="7" />
+    <SectionGameChoosePass :code-color="arrCodeChoosed" :componentStep="8" />
 
     <SectionGameCode @clicked-get-code="onClickGetCode($event)" />
   </div>
@@ -28,8 +29,6 @@ export default {
 
       arrCode: this.selectedArrCode,
       arrCodeChoosed: [],
-
-      step: 0,
     };
   },
   methods: {

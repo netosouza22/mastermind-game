@@ -30,6 +30,7 @@ export default {
 
 <style>
 #section-colors {
+  width: 200px;
   border: 1px solid #000;
   width: 60px;
 }

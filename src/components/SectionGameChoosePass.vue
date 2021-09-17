@@ -1,6 +1,10 @@
 <template>
   <div id="container-section-move">
-    <div class="section-circle-game">
+    <h1>{{ $store.state.actualStep }}</h1>
+    <div
+      class="section-circle-game"
+      :style="[isThisStep ? { border: '1px solid #000' } : null]"
+    >
       <label for="select1" />
       <select
         name="first"
@@ -9,9 +13,9 @@
         class="option circle-choose-color"
         v-model="colors.first"
         :disabled="disabled"
-        @change="getOwnColor($event)"
       >
         <option
+          class="option-test"
           v-for="(data, key) in arrSelectedColors"
           :style="{ backgroundColor: data }"
           :key="data + key"
@@ -26,7 +30,6 @@
         class="option circle-choose-color"
         v-model="colors.second"
         :disabled="disabled"
-        @change="getOwnColor($event)"
       >
         <option
           v-for="(data, key) in arrSelectedColors"
@@ -43,7 +46,6 @@
         class="option circle-choose-color"
         v-model="colors.third"
         :disabled="disabled"
-        @change="getOwnColor($event)"
       >
         <option
           v-for="(data, key) in arrSelectedColors"
@@ -60,7 +62,6 @@
         class="option circle-choose-color"
         v-model="colors.fourth"
         :disabled="disabled"
-        @change="getOwnColor($event)"
       >
         <option
           v-for="(data, key) in arrSelectedColors"
@@ -89,7 +90,10 @@ import colorArr from "../assets/colors.json";
 
 export default {
   name: "SectionGame",
-  props: ["codeColor", "step"],
+  props: {
+    codeColor: Array,
+    componentStep: Number,
+  },
   data() {
     return {
       arrSelectedColors: colorArr[0],
@@ -105,9 +109,28 @@ export default {
       hitColors: ["transparent", "transparent", "transparent", "transparent"],
     };
   },
-
+  computed: {
+    actualStep() {
+      return this.$store.state.actualStep;
+    },
+    isThisStep() {
+      if (this.componentStep === this.actualStep) {
+        return true;
+      }
+      return false;
+    },
+    // // eslint-disable-next-line vue/return-in-computed-property
+    // // eslint-disable-next-line vue/no-dupe-keys
+    // isThisStep: function () {
+    //   if (this.props.componentStep === this.actualStep) {
+    //     return true;
+    //   }
+    //   return false;
+    // },
+  },
   methods: {
     verifyCode() {
+      console.log(this.componentStep);
       let resultColorsHits = [];
       let arrInfoHiits = [];
       let actualCodeColor = this.codeColor;
@@ -141,15 +164,6 @@ export default {
       this.hitColors = resultColorsHits;
       this.disabled = true;
     },
-
-    getOwnColor(event) {
-      console.log(event.target);
-      let objColors = this.colors;
-
-      if (Object.prototype.hasOwnProperty.call(objColors, event.target.name)) {
-        console.log(event.target.name);
-      }
-    },
   },
 };
 </script>
@@ -158,6 +172,8 @@ export default {
 #container-section-move {
   display: flex;
   flex-direction: row;
+  background-color: chartreuse;
+  margin: 10px;
 }
 
 .section-circle-game {
@@ -195,7 +211,8 @@ export default {
 
 #test-code {
   border: none;
-  height: 20px;
+  height: 30px;
+  width: 100px;
   align-self: center;
   border-radius: 0px;
 
@@ -203,6 +220,7 @@ export default {
 
   background-color: rgb(183, 226, 118);
   color: white;
+  font-weight: bold;
 
   cursor: pointer;
 }
@@ -213,8 +231,12 @@ select {
   appearance: none;
 }
 
-select:focus {
-  background-color: red;
-  color: red;
+.option-test:hover {
+  box-shadow: 0 0 10px 100px #000 inset;
+  background-color: blue;
+}
+
+select option.option-test:focus {
+  box-shadow: 0 0 10px 100px #000 inset;
 }
 </style>
