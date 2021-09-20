@@ -6,11 +6,11 @@
       class="div-color"
       :style="{ backgroundColor: data }"
     ></div>
-    <button @click="selectColors()">Click Me</button>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import colorObj from "../assets/colors.json";
 
 export default {
@@ -20,6 +20,9 @@ export default {
       prevColorObj: colorObj[0],
       newColorObj: [],
     };
+  },
+  computed: {
+    ...mapState(["start"]),
   },
   methods: {
     selectColors() {
@@ -43,6 +46,12 @@ export default {
       this.newColorObj = newColorObj;
 
       this.$emit("clicked-get-code", newColorObj);
+    },
+  },
+  //Using watch to can watch the change state stored in store.js
+  watch: {
+    start() {
+      this.selectColors();
     },
   },
 };

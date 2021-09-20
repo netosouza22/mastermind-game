@@ -8,5 +8,15 @@ export default new Vuex.Store({
   //Using state
   state: {
     actualStep: 1,
+    start: false,
+  },
+  mutations: {
+    increaseStep(state) {
+      state.actualStep++;
+    },
+
+    changeStartBool(state) {
+      state.start = !state.start;
+    },
   },
 });

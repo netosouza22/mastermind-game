@@ -31,6 +31,7 @@ export default {
       arrCodeChoosed: [],
     };
   },
+
   methods: {
     onClickGetCode(event) {
       this.arrCodeChoosed = event;

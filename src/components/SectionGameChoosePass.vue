@@ -1,6 +1,6 @@
 <template>
   <div id="container-section-move">
-    <h1>{{ $store.state.actualStep }}</h1>
+    <h4>{{ this.componentStep }}</h4>
     <div
       class="section-circle-game"
       :style="[isThisStep ? { border: '1px solid #000' } : null]"
@@ -81,11 +81,20 @@
       ></div>
     </div>
 
-    <button @click="verifyCode()" id="test-code">Test</button>
+    <button
+      @click="
+        verifyCode();
+        handleClick();
+      "
+      id="test-code"
+    >
+      Test
+    </button>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
 import colorArr from "../assets/colors.json";
 
 export default {
@@ -110,25 +119,20 @@ export default {
     };
   },
   computed: {
-    actualStep() {
-      return this.$store.state.actualStep;
-    },
+    ...mapState(["actualStep"]),
     isThisStep() {
       if (this.componentStep === this.actualStep) {
         return true;
       }
       return false;
     },
-    // // eslint-disable-next-line vue/return-in-computed-property
-    // // eslint-disable-next-line vue/no-dupe-keys
-    // isThisStep: function () {
-    //   if (this.props.componentStep === this.actualStep) {
-    //     return true;
-    //   }
-    //   return false;
-    // },
   },
   methods: {
+    ...mapMutations(["increaseStep"]),
+    handleClick() {
+      this.increaseStep();
+      console.log(this.actualStep);
+    },
     verifyCode() {
       console.log(this.componentStep);
       let resultColorsHits = [];
@@ -160,7 +164,6 @@ export default {
           resultColorsHits[i] = "transparent";
         }
       }
-
       this.hitColors = resultColorsHits;
       this.disabled = true;
     },

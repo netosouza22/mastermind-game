@@ -1,18 +1,22 @@
 <template>
   <div id="container-section-buttons">
-    <button class="button button-play">
+    <button class="button button-play" @click="handleClick()">
       <img id="play" src="../assets/icons/play.png" />
-    </button>
-
-    <button class="button button-refresh">
-      <img id="refresh" src="../assets/icons/refresh.png" />
     </button>
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "SectionButtons",
+  methods: {
+    ...mapMutations(["changeStartBool"]),
+    handleClick() {
+      this.changeStartBool();
+    },
+  },
 };
 </script>
 
