@@ -12,9 +12,9 @@ import { mapMutations } from "vuex";
 export default {
   name: "SectionButtons",
   methods: {
-    ...mapMutations(["changeStartBool"]),
+    ...mapMutations(["CHANGE_STATE_START"]),
     handleClick() {
-      this.changeStartBool();
+      this.CHANGE_STATE_START();
     },
   },
 };
@@ -47,6 +47,7 @@ export default {
 }
 img {
   margin-top: 3px;
+  margin-left: 5px;
 
   width: 25px;
   height: 25px;

@@ -3,7 +3,9 @@
     <h4>{{ this.componentStep }}</h4>
     <div
       class="section-circle-game"
-      :style="[isThisStep ? { border: '1px solid #000' } : null]"
+      :style="[
+        isThisStep && isDisabled == false ? { border: '1px solid #000' } : null,
+      ]"
     >
       <label for="select1" />
       <select
@@ -12,7 +14,7 @@
         :style="{ backgroundColor: this.colors.first }"
         class="option circle-choose-color"
         v-model="colors.first"
-        :disabled="disabled"
+        :disabled="isThisStep ? false : true"
       >
         <option
           class="option-test"
@@ -29,7 +31,7 @@
         :style="{ backgroundColor: this.colors.second }"
         class="option circle-choose-color"
         v-model="colors.second"
-        :disabled="disabled"
+        :disabled="isThisStep ? false : true"
       >
         <option
           v-for="(data, key) in arrSelectedColors"
@@ -45,7 +47,7 @@
         :style="{ backgroundColor: this.colors.third }"
         class="option circle-choose-color"
         v-model="colors.third"
-        :disabled="disabled"
+        :disabled="isThisStep ? false : true"
       >
         <option
           v-for="(data, key) in arrSelectedColors"
@@ -61,7 +63,7 @@
         :style="{ backgroundColor: this.colors.fourth }"
         class="option circle-choose-color"
         v-model="colors.fourth"
-        :disabled="disabled"
+        :disabled="isThisStep ? false : true"
       >
         <option
           v-for="(data, key) in arrSelectedColors"
@@ -87,6 +89,7 @@
         handleClick();
       "
       id="test-code"
+      :disabled="isThisStep ? false : true"
     >
       Test
     </button>
@@ -106,7 +109,6 @@ export default {
   data() {
     return {
       arrSelectedColors: colorArr[0],
-      disabled: false,
       selectedOption: "",
       colors: {
         first: "black",
@@ -119,22 +121,27 @@ export default {
     };
   },
   computed: {
-    ...mapState(["actualStep"]),
+    ...mapState(["actualStep", "start"]),
     isThisStep() {
       if (this.componentStep === this.actualStep) {
         return true;
       }
       return false;
     },
+    isDisabled() {
+      if (this.start === false) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
-    ...mapMutations(["increaseStep"]),
+    ...mapMutations(["INCREASE_STEP", "CHANGE_STATE_START"]),
     handleClick() {
-      this.increaseStep();
-      console.log(this.actualStep);
+      this.INCREASE_STEP();
     },
     verifyCode() {
-      console.log(this.componentStep);
       let resultColorsHits = [];
       let arrInfoHiits = [];
       let actualCodeColor = this.codeColor;
@@ -165,7 +172,12 @@ export default {
         }
       }
       this.hitColors = resultColorsHits;
-      this.disabled = true;
+      this.finishGame();
+    },
+    finishGame() {
+      if (this.hitColors.every((hits) => hits === "red")) {
+        this.CHANGE_STATE_START();
+      }
     },
   },
 };
@@ -234,12 +246,14 @@ select {
   appearance: none;
 }
 
-.option-test:hover {
-  box-shadow: 0 0 10px 100px #000 inset;
-  background-color: blue;
+option:hover {
+  background-color: blue !important;
+}
+/* select.decorated option:hover {
+  box-shadow: 0 0 10px 100px #1882a8 inset;
 }
 
 select option.option-test:focus {
   box-shadow: 0 0 10px 100px #000 inset;
-}
+} */
 </style>

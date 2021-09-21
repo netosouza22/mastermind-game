@@ -7,16 +7,18 @@ Vue.use(Vuex); //Indicate that vue must use Vuex;
 export default new Vuex.Store({
   //Using state
   state: {
-    actualStep: 1,
+    actualStep: 0,
     start: false,
   },
   mutations: {
-    increaseStep(state) {
+    INCREASE_STEP(state) {
       state.actualStep++;
     },
 
-    changeStartBool(state) {
+    CHANGE_STATE_START(state) {
       state.start = !state.start;
+      state.start ? (state.actualStep = 1) : (state.actualStep = 0);
+      console.log(state.start);
     },
   },
 });
