@@ -105,17 +105,13 @@ export default {
   props: {
     codeColor: Array,
     componentStep: Number,
+    prevColors: Object,
   },
   data() {
     return {
       arrSelectedColors: colorArr[0],
       selectedOption: "",
-      colors: {
-        first: "black",
-        second: "black",
-        third: "black",
-        fourth: "black",
-      },
+      colors: this.prevColors,
 
       hitColors: ["transparent", "transparent", "transparent", "transparent"],
     };
@@ -123,16 +119,16 @@ export default {
   computed: {
     ...mapState(["actualStep", "start"]),
     isThisStep() {
-      if (this.componentStep === this.actualStep) {
-        return true;
-      }
-      return false;
+      return this.componentStep === this.actualStep ? true : false;
     },
     isDisabled() {
+      return this.start === false ? true : false;
+    },
+  },
+  watch: {
+    start() {
       if (this.start === false) {
-        return true;
-      } else {
-        return false;
+        this.finishGame();
       }
     },
   },
@@ -147,7 +143,7 @@ export default {
       let actualCodeColor = this.codeColor;
       let actualColorsChoosed = Object.values(this.colors);
 
-      //Armazena a quantidade de acertos existentes na fase do jogo.
+      //Store the qnt of existents hits in the game phase and have a value attached to it
       //1 - Acertou posição e cor, 0 - acertou apenas cor e -1 - Não acertoou
       for (let i = 0; i < 4; i++) {
         if (actualCodeColor[i] === actualColorsChoosed[i]) {
@@ -161,7 +157,7 @@ export default {
 
       let resultArray = arrInfoHiits.sort().reverse(); //Posicioan em ordem os números
 
-      //Adiciona as cores no array responsável por altewrar a cor das divs
+      //Add the colors to the hits circles, to indentify the score.
       for (let i = 0; i < 4; i++) {
         if (resultArray[i] == 1) {
           resultColorsHits[i] = "red";
@@ -175,8 +171,36 @@ export default {
       this.finishGame();
     },
     finishGame() {
+      // if (this.start === true) {
+      //   this.colors = {
+      //     first: "black",
+      //     second: "black",
+      //     third: "black",
+      //     fourth: "black",
+      //   };
+
+      //   this.hitColors = [
+      //     "transparent",
+      //     "transparent",
+      //     "transparent",
+      //     "transparent",
+      //   ];
+      // }
       if (this.hitColors.every((hits) => hits === "red")) {
         this.CHANGE_STATE_START();
+        this.colors = {
+          first: "black",
+          second: "black",
+          third: "black",
+          fourth: "black",
+        };
+
+        this.hitColors = [
+          "transparent",
+          "transparent",
+          "transparent",
+          "transparent",
+        ];
       }
     },
   },
@@ -222,6 +246,9 @@ export default {
   border: 1px solid #000;
 
   margin: 2px;
+}
+button:disabled {
+  display: none;
 }
 
 #test-code {

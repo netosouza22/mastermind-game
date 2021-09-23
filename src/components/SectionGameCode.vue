@@ -1,7 +1,7 @@
 <template>
   <div id="container-section-game-code">
     <div
-      v-for="(data, key) in newColorObj"
+      v-for="(data, key) in newRandColorArr"
       :key="data + key"
       class="div-color"
       :style="{ backgroundColor: data }"
@@ -11,14 +11,14 @@
 
 <script>
 import { mapState } from "vuex";
-import colorObj from "../assets/colors.json";
+import colorArr from "../assets/colors.json";
 
 export default {
   name: "SectionGameCode",
   data() {
     return {
-      prevColorObj: colorObj[0],
-      newColorObj: [],
+      allColorArr: colorArr[0],
+      newRandColorArr: [],
     };
   },
   computed: {
@@ -26,32 +26,34 @@ export default {
   },
   methods: {
     selectColors() {
-      let prevColorObj = this.prevColorObj;
+      let allColorArr = this.allColorArr;
 
-      let arrNumberSelecteds = [];
-      let newColorObj = [];
+      let arrRandNumberSelecteds = [];
+      let newRandColorArr = [];
       let i = 0;
 
       //How to shuffle values of an array
       while (i < 4) {
-        let randNumber = Math.floor(Math.random() * prevColorObj.length); //I choose a random number between 0 and 4
+        let randNumber = Math.floor(Math.random() * allColorArr.length); //I choose a random number between 0 and 4
 
-        //Check if the number exists in array arrNumberSelecteds, if not then
-        if (arrNumberSelecteds.includes(randNumber) === false) {
-          newColorObj[i] = prevColorObj[randNumber]; //The position of newColorObj is populated by a prevColor index of rand number
-          i++;
-          arrNumberSelecteds.push(randNumber); //put the find nuumber in the array
+        //Check if the number exists in array arrRandNumberSelecteds, if not then
+        if (arrRandNumberSelecteds.includes(randNumber) === false) {
+          newRandColorArr[i] = allColorArr[randNumber]; //The position of newColorArr is populated by a prevColor index of rand number
+          i++; //Increment de value to the while structure
+          arrRandNumberSelecteds.push(randNumber); //put the find nuumber in the array
         }
       }
-      this.newColorObj = newColorObj;
+      this.newRandColorArr = newRandColorArr;
 
-      this.$emit("clicked-get-code", newColorObj);
+      this.$emit("clicked-get-code", newRandColorArr); //Emit the value for the parent component
     },
   },
-  //Using watch to can watch the change state stored in store.js
+  //Using watch to wait the change state 'start' stored in store.js
   watch: {
     start() {
-      this.selectColors();
+      if (this.start === true) {
+        this.selectColors();
+      }
     },
   },
 };

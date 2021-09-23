@@ -1,5 +1,6 @@
 <template>
   <div id="section-colors">
+    <p><strong>Todas as Cores</strong></p>
     <div
       v-for="(data, key) in colorObj"
       :key="data + key"
@@ -39,7 +40,5 @@ export default {
   height: 40px;
   border-radius: 50%;
   margin: 10px;
-
-  cursor: pointer;
 }
 </style>

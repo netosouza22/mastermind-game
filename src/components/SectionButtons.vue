@@ -1,21 +1,49 @@
 <template>
   <div id="container-section-buttons">
-    <button class="button button-play" @click="handleClick()">
-      <img id="play" src="../assets/icons/play.png" />
+    <button
+      class="button button-play"
+      @click="
+        handleClick();
+        getIconButton();
+      "
+    >
+      <img id="play" :src="'/icons/' + actualButtonIcon + '.png'" />
     </button>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "SectionButtons",
+  data() {
+    return {
+      actualButtonIcon: "play",
+    };
+  },
   methods: {
     ...mapMutations(["CHANGE_STATE_START"]),
     handleClick() {
       this.CHANGE_STATE_START();
+      console.log(this.actualButtonIcon);
     },
+    getIconButton() {
+      this.start
+        ? (this.actualButtonIcon = `refresh`)
+        : (this.actualButtonIcon = `play`);
+    },
+  },
+  computed: {
+    ...mapState(["start"]),
+  },
+  actualButtonIcon() {
+    if (this.start === true) {
+      console.log(this.start);
+      return (this.actualButtonIcon = this.iconRestart);
+    } else {
+      return (this.actualButtonIcon = this.iconStart);
+    }
   },
 };
 </script>
