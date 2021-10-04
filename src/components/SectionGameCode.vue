@@ -28,26 +28,21 @@ export default {
     selectColors() {
       let allColorArr = this.allColorArr;
 
-      let arrRandNumberSelecteds = [];
+      // let arrRandNumberSelecteds = [];
       let newRandColorArr = [];
       let i = 0;
 
-      //How to shuffle values of an array
       while (i < 4) {
         let randNumber = Math.floor(Math.random() * allColorArr.length); //I choose a random number between 0 and 4
-
-        //Check if the number exists in array arrRandNumberSelecteds, if not then
-        if (arrRandNumberSelecteds.includes(randNumber) === false) {
-          newRandColorArr[i] = allColorArr[randNumber]; //The position of newColorArr is populated by a prevColor index of rand number
-          i++; //Increment de value to the while structure
-          arrRandNumberSelecteds.push(randNumber); //put the find nuumber in the array
-        }
+        newRandColorArr[i] = allColorArr[randNumber]; //The position of newColorArr is populated by a prevColor index of rand number
+        i++;
       }
-      this.newRandColorArr = newRandColorArr;
 
+      this.newRandColorArr = newRandColorArr;
       this.$emit("clicked-get-code", newRandColorArr); //Emit the value for the parent component
     },
   },
+
   //Using watch to wait the change state 'start' stored in store.js
   watch: {
     start() {

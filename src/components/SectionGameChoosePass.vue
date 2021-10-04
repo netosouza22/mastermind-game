@@ -11,9 +11,9 @@
       <select
         name="first"
         id="first"
-        :style="{ backgroundColor: this.colors.first }"
+        :style="{ backgroundColor: this.inputColors.first }"
         class="option circle-choose-color"
-        v-model="colors.first"
+        v-model="inputColors.first"
         :disabled="isThisStep ? false : true"
       >
         <option
@@ -28,9 +28,9 @@
       <label for="select1" />
       <select
         name="second"
-        :style="{ backgroundColor: this.colors.second }"
+        :style="{ backgroundColor: this.inputColors.second }"
         class="option circle-choose-color"
-        v-model="colors.second"
+        v-model="inputColors.second"
         :disabled="isThisStep ? false : true"
       >
         <option
@@ -44,9 +44,9 @@
       <label for="select1" />
       <select
         name="third"
-        :style="{ backgroundColor: this.colors.third }"
+        :style="{ backgroundColor: this.inputColors.third }"
         class="option circle-choose-color"
-        v-model="colors.third"
+        v-model="inputColors.third"
         :disabled="isThisStep ? false : true"
       >
         <option
@@ -60,9 +60,9 @@
       <label for="select1" />
       <select
         name="fourth"
-        :style="{ backgroundColor: this.colors.fourth }"
+        :style="{ backgroundColor: this.inputColors.fourth }"
         class="option circle-choose-color"
-        v-model="colors.fourth"
+        v-model="inputColors.fourth"
         :disabled="isThisStep ? false : true"
       >
         <option
@@ -76,7 +76,7 @@
 
     <div class="section-hits">
       <div
-        v-for="(data, key) in hitColors"
+        v-for="(data, key) in scoreColors"
         :key="data + key"
         class="circle-hits"
         :style="{ backgroundColor: data }"
@@ -103,7 +103,9 @@ import colorArr from "../assets/colors.json";
 export default {
   name: "SectionGame",
   props: {
-    codeColor: Array,
+    codeColor: {
+      type: Array,
+    },
     componentStep: Number,
     prevColors: Object,
   },
@@ -111,9 +113,14 @@ export default {
     return {
       arrSelectedColors: colorArr[0],
       selectedOption: "",
-      colors: this.prevColors,
+      inputColors: {
+        first: "black",
+        second: "black",
+        third: "black",
+        fourth: "black",
+      },
 
-      hitColors: ["transparent", "transparent", "transparent", "transparent"],
+      scoreColors: ["transparent", "transparent", "transparent", "transparent"],
     };
   },
   computed: {
@@ -139,25 +146,44 @@ export default {
     },
     verifyCode() {
       let resultColorsHits = [];
-      let arrInfoHiits = [];
-      let actualCodeColor = this.codeColor;
-      let actualColorsChoosed = Object.values(this.colors);
+      let arrInfoHits = [];
+      let arrColorAppeared = [];
 
-      //Store the qnt of existents hits in the game phase and have a value attached to it
-      //1 - Acertou posição e cor, 0 - acertou apenas cor e -1 - Não acertoou
+      // let qntShowColor = 0;
+      let actualColorsChoosed = Object.values(this.inputColors);
+      let actualCodeColor = this.codeColor.map((x) => x);
+
       for (let i = 0; i < 4; i++) {
-        if (actualCodeColor[i] === actualColorsChoosed[i]) {
-          arrInfoHiits.push(1);
+        if (actualColorsChoosed[i] === actualCodeColor[i]) {
+          arrInfoHits.push(1);
+          arrColorAppeared.push(actualColorsChoosed[i]); //store all colors in this that hit code and my pass
         } else if (actualCodeColor.includes(actualColorsChoosed[i])) {
-          arrInfoHiits.push(0);
+          let qntTimeAppearCode = this.numbTimesColorAppear(
+            actualCodeColor,
+            actualColorsChoosed[i]
+          );
+
+          let qntTimeAppearBefore = this.numbTimesColorAppear(
+            arrColorAppeared,
+            actualColorsChoosed[i]
+          );
+
+          if (
+            arrColorAppeared.includes(actualColorsChoosed[i]) &&
+            qntTimeAppearCode === qntTimeAppearBefore
+          ) {
+            arrInfoHits.push(-1);
+          } else {
+            arrInfoHits.push(0);
+          }
         } else {
-          arrInfoHiits.push(-1);
+          arrInfoHits.push(-1);
         }
       }
 
-      let resultArray = arrInfoHiits.sort().reverse(); //Posicioan em ordem os números
-
-      //Add the colors to the hits circles, to indentify the score.
+      // let resultArray = arrInfoHits.sort().reverse(); //Posicioan em ordem os números
+      let resultArray = arrInfoHits; //Posicioan em ordem os números
+      //Add the colors to the score circles, to indentify the score.
       for (let i = 0; i < 4; i++) {
         if (resultArray[i] == 1) {
           resultColorsHits[i] = "red";
@@ -167,35 +193,25 @@ export default {
           resultColorsHits[i] = "transparent";
         }
       }
-      this.hitColors = resultColorsHits;
+      this.scoreColors = resultColorsHits;
       this.finishGame();
     },
-    finishGame() {
-      // if (this.start === true) {
-      //   this.colors = {
-      //     first: "black",
-      //     second: "black",
-      //     third: "black",
-      //     fourth: "black",
-      //   };
+    numbTimesColorAppear(arrColor, testColor) {
+      let numbTime = arrColor.filter((color) => color == testColor).length;
 
-      //   this.hitColors = [
-      //     "transparent",
-      //     "transparent",
-      //     "transparent",
-      //     "transparent",
-      //   ];
-      // }
-      if (this.hitColors.every((hits) => hits === "red")) {
+      return numbTime;
+    },
+    finishGame() {
+      if (this.scoreColors.every((hits) => hits === "red")) {
         this.CHANGE_STATE_START();
-        this.colors = {
+        this.inputColors = {
           first: "black",
           second: "black",
           third: "black",
           fourth: "black",
         };
 
-        this.hitColors = [
+        this.scoreColors = [
           "transparent",
           "transparent",
           "transparent",
