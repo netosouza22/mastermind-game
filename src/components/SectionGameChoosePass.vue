@@ -158,7 +158,7 @@ export default {
           arrInfoHits.push(1);
           arrColorAppeared.push(actualColorsChoosed[i]); //store all colors in this that hit code and my pass
         } else if (actualCodeColor.includes(actualColorsChoosed[i])) {
-          let qntTimeAppearCode = this.numbTimesColorAppear(
+          let qntTimeAppearInCode = this.numbTimesColorAppear(
             actualCodeColor,
             actualColorsChoosed[i]
           );
@@ -168,11 +168,18 @@ export default {
             actualColorsChoosed[i]
           );
 
-          if (
-            arrColorAppeared.includes(actualColorsChoosed[i]) &&
-            qntTimeAppearCode === qntTimeAppearBefore
-          ) {
-            arrInfoHits.push(-1);
+          let qntTimeAppearInPass = this.numbTimesColorAppear(
+            actualColorsChoosed,
+            actualColorsChoosed[i]
+          );
+
+          if (qntTimeAppearInPass === qntTimeAppearInCode) {
+            arrInfoHits.push(0);
+          } else if (qntTimeAppearInPass < qntTimeAppearInCode) {
+            console.log(qntTimeAppearInPass, qntTimeAppearInCode);
+            qntTimeAppearBefore === 0
+              ? arrInfoHits.push(0)
+              : arrInfoHits.push(-1);
           } else {
             arrInfoHits.push(0);
           }
@@ -201,6 +208,7 @@ export default {
 
       return numbTime;
     },
+
     finishGame() {
       if (this.scoreColors.every((hits) => hits === "red")) {
         this.CHANGE_STATE_START();
